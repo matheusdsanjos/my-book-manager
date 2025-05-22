@@ -86,12 +86,13 @@ my-book-manager/
 │   ├── WEB-INF/
 │   │   ├── web.xml
 │   │   └── lib/
-│   ├── css/
-│   ├── js/
-│   └── *.jsp
+│   ├── autor-list.jsp
+│   ├── editora-list.jsp
+│   ├── livro-list.jsp
+│   └── index.jsp
 ├── database/
 │   └── livraria.sql
-└── README.me
+└── README.md
 ```
 
 ---
@@ -112,7 +113,7 @@ my-book-manager/
    ```
 
 2. **Configure o banco de dados:**
-   - Execute o script `database/create_database.sql` no MySQL
+   - Execute o script `database/livraria.sql` no MySQL
    - Ajuste as credenciais em `src/util/ConnectionFactory.java`
 
 3. **Importe o projeto no Eclipse:**
@@ -129,17 +130,7 @@ my-book-manager/
 
 ---
 
-## 👥 **Desenvolvedores**
+## 👥 **Alunos**
 
-- **Matheus dos Santos** - Desenvolvimento Backend e Banco de Dados
-- **[Nome do Parceiro]** - Desenvolvimento Frontend e Integração
-
----
-
-## 📅 **Data de Entrega**
-
-**15/05/2025** - Apresentação com demonstração prática do funcionamento do sistema.
-
----
-
-**Repositório:** https://github.com/matheusdsanjos/my-book-manager
+- **Matheus dos Anjos de Oliveira**
+- **Vitor Siedschlag Hervella**
