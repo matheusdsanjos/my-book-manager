@@ -48,58 +48,18 @@ O **My Book Manager** é um sistema web desenvolvido seguindo o padrão arquitet
 - **JSP (JavaServer Pages)**: Páginas dinâmicas server-side
 - **JSTL (JSP Standard Tag Library)**: Tags customizadas para JSP
 - **HTML5 & CSS3**: Estruturação e estilização das páginas
-- **Bootstrap 5**: Framework CSS para responsividade
 
 ### **Banco de Dados:**
 - **MySQL 8.0**: Sistema de gerenciamento de banco relacional
 - **Relacionamentos**: Implementação de chaves estrangeiras e relacionamentos N:N
 
 ### **Servidor:**
-- **Apache Tomcat 9.0**: Servidor de aplicação Java
+- **Apache Tomcat 10.0**: Servidor de aplicação Java
 
 ### **Ferramentas de Desenvolvimento:**
 - **Eclipse IDE**: Ambiente de desenvolvimento integrado
 - **MySQL Workbench**: Administração e modelagem do banco
 - **Git**: Controle de versão
-
----
-
-## ⚠️ **Principais Dificuldades Encontradas**
-
-### **1. Configuração do Ambiente de Desenvolvimento**
-- **Problema**: Compatibilidade entre versões do Tomcat, Java e bibliotecas JSTL
-- **Solução**: Padronização das versões e configuração adequada do `web.xml`
-- **Aprendizado**: Importância da documentação das versões utilizadas
-
-### **2. Implementação do Padrão MVC**
-- **Problema**: Separação adequada das responsabilidades entre as camadas
-- **Solução**: Estudo aprofundado do padrão e refatoração do código inicial
-- **Aprendizado**: Organização clara do código facilita manutenção e expansão
-
-### **3. Relacionamentos no Banco de Dados**
-- **Problema**: Implementação do relacionamento N:N entre Livros e Autores
-- **Solução**: Criação da tabela auxiliar `livro_autor` e ajuste nas consultas SQL
-- **Aprendizado**: Modelagem correta evita problemas futuros na aplicação
-
-### **4. Gerenciamento de Conexões JDBC**
-- **Problema**: Vazamento de conexões e gerenciamento inadequado de recursos
-- **Solução**: Implementação do padrão Singleton na `ConnectionFactory` e uso de try-with-resources
-- **Aprendizado**: Gestão adequada de recursos é fundamental para performance
-
-### **5. Integração JSP + JSTL**
-- **Problema**: Configuração inicial da JSTL e renderização de dados dinâmicos
-- **Solução**: Configuração correta das bibliotecas e estudo da Expression Language (EL)
-- **Aprendizado**: JSP + JSTL proporcionam separação clara entre lógica e apresentação
-
-### **6. Validação de Dados**
-- **Problema**: Garantir consistência dos dados tanto no frontend quanto no backend
-- **Solução**: Implementação de validações em ambas as camadas
-- **Aprendizado**: Validação dupla garante integridade e segurança dos dados
-
-### **7. Tratamento de Exceções**
-- **Problema**: Gerenciamento adequado de erros de banco de dados
-- **Solução**: Implementação de blocos try-catch apropriados e mensagens de erro claras
-- **Aprendizado**: Tratamento de exceções melhora a experiência do usuário
 
 ---
 
@@ -110,19 +70,15 @@ my-book-manager/
 ├── src/
 │   ├── dao/
 │   │   ├── AutorDAO.java
-│   │   ├── CategoriaDAO.java
+│   │   ├── EditoraDAO.java
 │   │   └── LivroDAO.java
-│   ├── dto/
-│   │   ├── AutorDTO.java
-│   │   ├── CategoriaDTO.java
-│   │   └── LivroDTO.java
 │   ├── model/
 │   │   ├── Autor.java
-│   │   ├── Categoria.java
+│   │   ├── Editora.java
 │   │   └── Livro.java
 │   ├── servlet/
 │   │   ├── AutorServlet.java
-│   │   ├── CategoriaServlet.java
+│   │   ├── EditoraServlet.java
 │   │   └── LivroServlet.java
 │   └── util/
 │       └── ConnectionFactory.java
@@ -134,9 +90,8 @@ my-book-manager/
 │   ├── js/
 │   └── *.jsp
 ├── database/
-│   └── create_database.sql
-└── docs/
-    └── manual_execucao.md
+│   └── livraria.sql
+└── README.me
 ```
 
 ---
