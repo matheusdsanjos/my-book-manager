@@ -12,19 +12,18 @@ O **My Book Manager** é um sistema web desenvolvido seguindo o padrão arquitet
 ### **Principais Funcionalidades:**
 
 1. **Gestão de Livros**
-   - Cadastro de livros com informações completas (título, ISBN, editora, ano, páginas)
+   - Cadastro de livros com informações completas (título, ISBN, editora, ano, preço)
    - Listagem de todos os livros cadastrados
-   - Busca por título, autor ou ISBN
+   - Busca por título
    - Edição e exclusão de registros
 
 2. **Gestão de Autores**
-   - Cadastro de autores com dados pessoais e biografia
-   - Listagem e busca de autores por nome
-   - Associação de autores aos livros (relacionamento N:N)
+   - Cadastro de autores com nome e nacionalidade
+   - Listagem de autores
 
-3. **Gestão de Categorias**
-   - Criação de categorias para organização temática
-   - Associação de livros às categorias (relacionamento N:1)
+3. **Gestão de Editoras**
+   - Cadastro de editoras com nome e cidade
+   - Listagem de editoras
 
 ### **Fluxo de Funcionamento:**
 
@@ -41,8 +40,6 @@ O **My Book Manager** é um sistema web desenvolvido seguindo o padrão arquitet
 - **Java 11+**: Linguagem de programação principal
 - **Jakarta Servlets**: Implementação dos controladores MVC
 - **JDBC (Java Database Connectivity)**: API para acesso ao banco de dados
-- **PreparedStatement**: Prevenção contra SQL Injection
-- **DTOs (Data Transfer Objects)**: Transferência de dados entre camadas
 
 ### **Frontend:**
 - **JSP (JavaServer Pages)**: Páginas dinâmicas server-side
