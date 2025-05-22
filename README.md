@@ -99,7 +99,7 @@ my-book-manager/
 ### **Pré-requisitos:**
 - Java JDK 11 ou superior
 - Apache Tomcat 9.0
-- MySQL Server 8.0
+- MySQL 8.0
 - Eclipse IDE for Enterprise Java Developers
 
 ### **Passo a Passo:**
