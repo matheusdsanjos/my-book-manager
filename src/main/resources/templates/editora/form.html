@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: header"></nav>
+    
+    <div class="container mt-4">
+        <div th:replace="fragments :: messages"></div>
+        <div th:replace="fragments :: errors"></div>
+        
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <h2>
+                    <i class="fas fa-building"></i>
+                    <span th:text="${editora.id != null ? 'Editar Editora' : 'Nova Editora'}">Formulário de Editora</span>
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/editoras}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-edit"></i>
+                    <span th:text="${editora.id != null ? 'Editar Editora' : 'Cadastrar Nova Editora'}">Formulário</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/editoras/salvar}" th:object="${editora}" method="post" class="row g-3">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="col-md-8">
+                        <label for="nome" class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="nome" th:field="*{nome}" 
+                               th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" required
+                               placeholder="Digite o nome da editora">
+                        <div th:if="${#fields.hasErrors('nome')}" class="invalid-feedback">
+                            <span th:errors="*{nome}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="cidade" class="form-label">Cidade</label>
+                        <input type="text" class="form-control" id="cidade" th:field="*{cidade}" 
+                               placeholder="Ex: São Paulo">
+                        <div th:if="${#fields.hasErrors('cidade')}" class="invalid-feedback">
+                            <span th:errors="*{cidade}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/editoras}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span th:text="${editora.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <script th:replace="fragments :: scripts"></script>
+</body>
+</html> 

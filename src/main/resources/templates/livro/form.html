@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: header"></nav>
+    
+    <div class="container mt-4">
+        <div th:replace="fragments :: messages"></div>
+        <div th:replace="fragments :: errors"></div>
+        
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <h2>
+                    <i class="fas fa-book"></i>
+                    <span th:text="${livro.id != null ? 'Editar Livro' : 'Novo Livro'}">Formulário de Livro</span>
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/livros}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-edit"></i>
+                    <span th:text="${livro.id != null ? 'Editar Livro' : 'Cadastrar Novo Livro'}">Formulário</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/livros/salvar}" th:object="${livro}" method="post" class="row g-3">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="col-md-8">
+                        <label for="titulo" class="form-label">Título *</label>
+                        <input type="text" class="form-control" id="titulo" th:field="*{titulo}" 
+                               th:classappend="${#fields.hasErrors('titulo')} ? 'is-invalid'" required>
+                        <div th:if="${#fields.hasErrors('titulo')}" class="invalid-feedback">
+                            <span th:errors="*{titulo}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="isbn" class="form-label">ISBN</label>
+                        <input type="text" class="form-control" id="isbn" th:field="*{isbn}" 
+                               placeholder="Ex: 9788535914849">
+                        <div th:if="${#fields.hasErrors('isbn')}" class="invalid-feedback">
+                            <span th:errors="*{isbn}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="autor" class="form-label">Autor *</label>
+                        <select class="form-select" id="autor" th:field="*{autor}" 
+                                th:classappend="${#fields.hasErrors('autor')} ? 'is-invalid'" required>
+                            <option value="">Selecione um autor</option>
+                            <option th:each="autor : ${autores}" 
+                                    th:value="${autor.id}" 
+                                    th:text="${autor.nome + ' (' + autor.nacionalidade + ')'}"
+                                    th:selected="${livro.autor != null and livro.autor.id == autor.id}">
+                                Nome do Autor
+                            </option>
+                        </select>
+                        <div th:if="${#fields.hasErrors('autor')}" class="invalid-feedback">
+                            <span th:errors="*{autor}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="editora" class="form-label">Editora *</label>
+                        <select class="form-select" id="editora" th:field="*{editora}" 
+                                th:classappend="${#fields.hasErrors('editora')} ? 'is-invalid'" required>
+                            <option value="">Selecione uma editora</option>
+                            <option th:each="editora : ${editoras}" 
+                                    th:value="${editora.id}" 
+                                    th:text="${editora.nome + ' (' + editora.cidade + ')'}"
+                                    th:selected="${livro.editora != null and livro.editora.id == editora.id}">
+                                Nome da Editora
+                            </option>
+                        </select>
+                        <div th:if="${#fields.hasErrors('editora')}" class="invalid-feedback">
+                            <span th:errors="*{editora}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
+                        <input type="number" class="form-control" id="anoPublicacao" th:field="*{anoPublicacao}" 
+                               min="1800" max="2025" placeholder="Ex: 2020">
+                        <div th:if="${#fields.hasErrors('anoPublicacao')}" class="invalid-feedback">
+                            <span th:errors="*{anoPublicacao}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="preco" class="form-label">Preço</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="preco" th:field="*{preco}" 
+                                   step="0.01" min="0" placeholder="0.00"
+                                   th:classappend="${#fields.hasErrors('preco')} ? 'is-invalid'">
+                        </div>
+                        <div th:if="${#fields.hasErrors('preco')}" class="invalid-feedback">
+                            <span th:errors="*{preco}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/livros}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span th:text="${livro.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Links para cadastro rápido -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-user-edit"></i> Gerenciar Autores</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Cadastre e gerencie os autores dos livros.</p>
+                        <a th:href="@{/autores}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-list"></i> Ver Autores
+                        </a>
+                        <a th:href="@{/autores/novo}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-plus"></i> Novo Autor
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-building"></i> Gerenciar Editoras</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Cadastre e gerencie as editoras dos livros.</p>
+                        <a th:href="@{/editoras}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-list"></i> Ver Editoras
+                        </a>
+                        <a th:href="@{/editoras/novo}" class="btn btn-outline-success btn-sm">
+                            <i class="fas fa-plus"></i> Nova Editora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <script th:replace="fragments :: scripts"></script>
+</body>
+</html> 
