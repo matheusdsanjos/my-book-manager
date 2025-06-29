@@ -1,5 +1,6 @@
 package br.edu.ifsp.demo.my_book_manager.service;
 
+import br.edu.ifsp.demo.my_book_manager.exception.ResourceNotFoundException;
 import br.edu.ifsp.demo.my_book_manager.model.Autor;
 import br.edu.ifsp.demo.my_book_manager.repository.AutorRepository;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class AutorService {
 
     public Autor buscarPorIdOuLancarExcecao(Long id) {
         return autorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Autor não encontrado com ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Autor não encontrado com ID: " + id));
     }
 
     public List<Autor> buscarPorNome(String nome) {
@@ -45,7 +46,7 @@ public class AutorService {
 
     public void excluir(Long id) {
         if (!autorRepository.existsById(id)) {
-            throw new RuntimeException("Autor não encontrado com ID: " + id);
+            throw new ResourceNotFoundException("Autor não encontrado com ID: " + id);
         }
         autorRepository.deleteById(id);
     }

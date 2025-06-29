@@ -41,6 +41,84 @@ O **My Book Manager** é um sistema web desenvolvido com **Spring MVC** seguindo
 
 ---
 
+## 🔌 **API REST**
+
+O sistema também disponibiliza uma **API REST completa** para integração com outros sistemas, aplicações móveis ou frontends SPA (Single Page Applications).
+
+### **Endpoints Principais:**
+
+**Base URL:** `http://localhost:8080/api`
+
+#### **Informações da API:**
+- `GET /api/info` - Informações gerais da API
+- `GET /api/stats` - Estatísticas do sistema
+- `GET /api/health` - Status da API
+
+#### **Autores:**
+- `GET /api/autores` - Lista todos os autores
+- `GET /api/autores/{id}` - Busca autor por ID
+- `POST /api/autores` - Cria novo autor
+- `PUT /api/autores/{id}` - Atualiza autor
+- `DELETE /api/autores/{id}` - Remove autor
+- `GET /api/autores/buscar?nome={nome}` - Busca por nome
+- `GET /api/autores/nacionalidade/{nacionalidade}` - Busca por nacionalidade
+
+#### **Editoras:**
+- `GET /api/editoras` - Lista todas as editoras
+- `GET /api/editoras/{id}` - Busca editora por ID
+- `POST /api/editoras` - Cria nova editora
+- `PUT /api/editoras/{id}` - Atualiza editora
+- `DELETE /api/editoras/{id}` - Remove editora
+- `GET /api/editoras/buscar?nome={nome}` - Busca por nome
+- `GET /api/editoras/cidade/{cidade}` - Busca por cidade
+
+#### **Livros:**
+- `GET /api/livros` - Lista todos os livros
+- `GET /api/livros/{id}` - Busca livro por ID
+- `POST /api/livros` - Cria novo livro
+- `PUT /api/livros/{id}` - Atualiza livro
+- `DELETE /api/livros/{id}` - Remove livro
+- `GET /api/livros/buscar?termo={termo}` - Busca por título, autor ou ISBN
+- `GET /api/livros/autor/{autorId}` - Busca por autor
+- `GET /api/livros/editora/{editoraId}` - Busca por editora
+- `GET /api/livros/ano/{ano}` - Busca por ano
+- `GET /api/livros/preco?precoMin={min}&precoMax={max}` - Busca por faixa de preço
+- `GET /api/livros/isbn/{isbn}` - Busca por ISBN
+
+### **Exemplos de Uso:**
+
+#### **Listar todos os autores:**
+```bash
+curl -X GET http://localhost:8080/api/autores
+```
+
+#### **Criar um novo autor:**
+```bash
+curl -X POST http://localhost:8080/api/autores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nome": "Carlos Drummond de Andrade",
+    "nacionalidade": "Brasileiro"
+  }'
+```
+
+#### **Buscar livros por termo:**
+```bash
+curl -X GET "http://localhost:8080/api/livros/buscar?termo=Dom"
+```
+
+### **Características da API:**
+- **Respostas em JSON** para todas as operações
+- **Códigos de status HTTP** apropriados (200, 201, 204, 400, 404, 500)
+- **Validação de dados** com mensagens de erro detalhadas
+- **Tratamento global de exceções** com respostas padronizadas
+- **DTOs** para separação entre entidades JPA e dados da API
+- **Busca case-insensitive** em todos os filtros
+
+Para documentação completa da API, consulte o arquivo `API_REST_DOCUMENTATION.md`.
+
+---
+
 ## 🛠️ **Tecnologias Utilizadas**
 
 ### **Backend:**
@@ -83,11 +161,22 @@ my-book-manager-springmvc/
 │       │       │   ├── HomeController.java
 │       │       │   ├── LivroController.java
 │       │       │   ├── AutorController.java
-│       │       │   └── EditoraController.java
+│       │       │   ├── EditoraController.java
+│       │       │   ├── LivroRestController.java
+│       │       │   ├── AutorRestController.java
+│       │       │   ├── EditoraRestController.java
+│       │       │   └── ApiInfoController.java
 │       │       ├── model/
 │       │       │   ├── Livro.java
 │       │       │   ├── Autor.java
 │       │       │   └── Editora.java
+│       │       ├── dto/
+│       │       │   ├── LivroRequestDTO.java
+│       │       │   ├── LivroResponseDTO.java
+│       │       │   ├── AutorRequestDTO.java
+│       │       │   ├── AutorResponseDTO.java
+│       │       │   ├── EditoraRequestDTO.java
+│       │       │   └── EditoraResponseDTO.java
 │       │       ├── repository/
 │       │       │   ├── LivroRepository.java
 │       │       │   ├── AutorRepository.java
@@ -96,6 +185,9 @@ my-book-manager-springmvc/
 │       │       │   ├── LivroService.java
 │       │       │   ├── AutorService.java
 │       │       │   └── EditoraService.java
+│       │       ├── exception/
+│       │       │   ├── ResourceNotFoundException.java
+│       │       │   └── GlobalExceptionHandler.java
 │       │       └── MyBookManagerSpringmvcApplication.java
 │       └── resources/
 │           ├── templates/
@@ -114,7 +206,8 @@ my-book-manager-springmvc/
 ├── database/
 │   └── livraria.sql
 ├── pom.xml
-└── README.md
+├── README.md
+└── API_REST_DOCUMENTATION.md
 ```
 
 ---
@@ -178,6 +271,27 @@ Para facilitar o desenvolvimento com Spring Boot e Spring MVC, recomenda-se inst
    - Ou execute a classe `MyBookManagerSpringmvcApplication`
    - Acesse: `http://localhost:8080/`
 
+### **Testando a API REST:**
+
+Após executar a aplicação, você pode testar a API REST:
+
+1. **Verificar status da API:**
+   ```bash
+   curl http://localhost:8080/api/health
+   ```
+
+2. **Listar todos os autores:**
+   ```bash
+   curl http://localhost:8080/api/autores
+   ```
+
+3. **Criar um novo autor:**
+   ```bash
+   curl -X POST http://localhost:8080/api/autores \
+     -H "Content-Type: application/json" \
+     -d '{"nome": "Teste API", "nacionalidade": "Brasileiro"}'
+   ```
+
 ---
 
 ## 🎯 **Funcionalidades Avançadas**
@@ -189,6 +303,9 @@ Para facilitar o desenvolvimento com Spring Boot e Spring MVC, recomenda-se inst
 - **Navegação intuitiva** entre as seções
 - **Formatação monetária** para preços
 - **Relacionamentos** entre entidades com integridade referencial
+- **API REST completa** para integração com outros sistemas
+- **DTOs** para separação de responsabilidades
+- **Tratamento global de exceções** com respostas padronizadas
 
 ---
 
@@ -202,4 +319,4 @@ Para facilitar o desenvolvimento com Spring Boot e Spring MVC, recomenda-se inst
 ## 📝 **Versões**
 
 - **v1.0.0** - Versão anterior (Servlet + JSP)
-- **v2.0.0** - Versão atual (Spring MVC + Thymeleaf)
+- **v2.0.0** - Versão atual (Spring MVC + Thymeleaf) 
