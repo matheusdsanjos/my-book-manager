@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: header"></nav>
+    
+    <div class="container mt-4">
+        <div th:replace="fragments :: messages"></div>
+        <div th:replace="fragments :: errors"></div>
+        
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <h2>
+                    <i class="fas fa-user-edit"></i>
+                    <span th:text="${autor.id != null ? 'Editar Autor' : 'Novo Autor'}">Formulário de Autor</span>
+                </h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/autores}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-edit"></i>
+                    <span th:text="${autor.id != null ? 'Editar Autor' : 'Cadastrar Novo Autor'}">Formulário</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/autores/salvar}" th:object="${autor}" method="post" class="row g-3">
+                    <input type="hidden" th:field="*{id}" />
+                    
+                    <div class="col-md-8">
+                        <label for="nome" class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="nome" th:field="*{nome}" 
+                               th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" required
+                               placeholder="Digite o nome completo do autor">
+                        <div th:if="${#fields.hasErrors('nome')}" class="invalid-feedback">
+                            <span th:errors="*{nome}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="nacionalidade" class="form-label">Nacionalidade</label>
+                        <input type="text" class="form-control" id="nacionalidade" th:field="*{nacionalidade}" 
+                               placeholder="Ex: Brasileira">
+                        <div th:if="${#fields.hasErrors('nacionalidade')}" class="invalid-feedback">
+                            <span th:errors="*{nacionalidade}"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/autores}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                <span th:text="${autor.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <script th:replace="fragments :: scripts"></script>
+</body>
+</html> 

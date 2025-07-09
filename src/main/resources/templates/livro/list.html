@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body>
+    <nav th:replace="fragments :: header"></nav>
+    
+    <div class="container mt-4">
+        <div th:replace="fragments :: messages"></div>
+        <div th:replace="fragments :: errors"></div>
+        
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <h2><i class="fas fa-books"></i> Gerenciamento de Livros</h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <a th:href="@{/livros/novo}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Novo Livro
+                </a>
+            </div>
+        </div>
+
+        <!-- Formulário de Busca -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-search"></i> Buscar Livros</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/livros/buscar}" method="get" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="termo" class="form-label">Título, Autor ou ISBN</label>
+                        <input type="text" class="form-control" id="termo" name="termo" 
+                               th:value="${termoBusca}" placeholder="Digite para buscar...">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="autorId" class="form-label">Autor</label>
+                        <select class="form-select" id="autorId" name="autorId">
+                            <option value="">Todos</option>
+                            <option th:each="autor : ${autores}" 
+                                    th:value="${autor.id}" 
+                                    th:text="${autor.nome}"
+                                    th:selected="${autorSelecionado != null and autorSelecionado.id == autor.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="editoraId" class="form-label">Editora</label>
+                        <select class="form-select" id="editoraId" name="editoraId">
+                            <option value="">Todas</option>
+                            <option th:each="editora : ${editoras}" 
+                                    th:value="${editora.id}" 
+                                    th:text="${editora.nome}"
+                                    th:selected="${editoraSelecionada != null and editoraSelecionada.id == editora.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="ano" class="form-label">Ano</label>
+                        <input type="number" class="form-control" id="ano" name="ano" 
+                               th:value="${anoSelecionado}" min="1800" max="2025">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Faixa de Preço</label>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="precoMin" 
+                                       th:value="${precoMin}" step="0.01" placeholder="Mín">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="precoMax" 
+                                       th:value="${precoMax}" step="0.01" placeholder="Máx">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a th:href="@{/livros}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Limpar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultados da Busca -->
+        <div th:if="${termoBusca != null or autorSelecionado != null or editoraSelecionada != null or anoSelecionado != null or precoMin != null}">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span th:if="${termoBusca}">Buscando por: <strong th:text="${termoBusca}"></strong></span>
+                <span th:if="${autorSelecionado}">Filtrando por autor: <strong th:text="${autorSelecionado.nome}"></strong></span>
+                <span th:if="${editoraSelecionada}">Filtrando por editora: <strong th:text="${editoraSelecionada.nome}"></strong></span>
+                <span th:if="${anoSelecionado}">Filtrando por ano: <strong th:text="${anoSelecionado}"></strong></span>
+                <span th:if="${precoMin != null and precoMax != null}">Filtrando por preço: <strong th:text="${precoMin}"> a </strong><strong th:text="${precoMax}"></strong></span>
+            </div>
+        </div>
+
+        <!-- Tabela de Livros -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Livros Cadastrados (<span th:text="${#lists.size(livros)}">0</span>)</h5>
+            </div>
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(livros)}" class="text-center py-4">
+                    <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Nenhum livro encontrado.</p>
+                </div>
+                
+                <div th:if="${not #lists.isEmpty(livros)}" class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>ISBN</th>
+                                <th>Autor</th>
+                                <th>Editora</th>
+                                <th>Ano</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="livro : ${livros}">
+                                <td th:text="${livro.id}">1</td>
+                                <td>
+                                    <strong th:text="${livro.titulo}">Título</strong>
+                                </td>
+                                <td th:text="${livro.isbn}">ISBN</td>
+                                <td th:text="${livro.autor != null ? livro.autor.nome : 'N/A'}">Autor</td>
+                                <td th:text="${livro.editora != null ? livro.editora.nome : 'N/A'}">Editora</td>
+                                <td th:text="${livro.anoPublicacao}">Ano</td>
+                                <td>
+                                    <span th:if="${livro.preco != null}" 
+                                          th:text="${'R$ ' + #numbers.formatDecimal(livro.preco, 1, 2)}">
+                                        R$ 0,00
+                                    </span>
+                                    <span th:if="${livro.preco == null}" class="text-muted">N/A</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a th:href="@{/livros/visualizar/{id}(id=${livro.id})}" 
+                                           class="btn btn-outline-info" title="Visualizar">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a th:href="@{/livros/editar/{id}(id=${livro.id})}" 
+                                           class="btn btn-outline-primary" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form th:action="@{/livros/excluir/{id}(id=${livro.id})}" 
+                                              method="post" style="display: inline;"
+                                              onsubmit="return confirm('Tem certeza que deseja excluir este livro?')">
+                                            <button type="submit" class="btn btn-outline-danger" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+    <script th:replace="fragments :: scripts"></script>
+</body>
+</html> 
