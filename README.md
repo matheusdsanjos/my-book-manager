@@ -5,6 +5,13 @@ Trabalho Prático - Desenvolvimento Web com Spring MVC, Thymeleaf e MySQL
 
 ---
 
+## 🎥 Apresentação
+
+Confira o vídeo de apresentação do projeto no YouTube:  
+[https://www.youtube.com/watch?v=SoW9mI_4JZk](https://www.youtube.com/watch?v=SoW9mI_4JZk)
+
+---
+
 ## 📖 **Funcionamento do Sistema**
 
 O **My Book Manager** é um sistema web desenvolvido com **Spring MVC** seguindo o padrão arquitetural **MVC (Model-View-Controller)** que permite o gerenciamento completo de uma biblioteca através de operações **CRUD** (Create, Read, Update, Delete).
@@ -420,11 +427,3 @@ Após executar a aplicação, você pode testar a API REST:
 
 - **Matheus dos Anjos de Oliveira**
 - **Vitor Siedschlag Hervella**
-
----
-
-## 📝 **Versões**
-
-- **v1.0.0** - Versão anterior (Servlet + JSP)
-- **v2.0.0** - Versão atual (Spring MVC + Thymeleaf)
-- **v2.1.0** - Adicionado Spring Security com JWT 
